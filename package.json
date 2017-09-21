@@ -4,7 +4,11 @@
   "description": "API Study Guide",
   "main": "src/server.js",
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^3.15.0",
+    "eslint-config-airbnb": "^14.0.0",
+    "eslint-plugin-import": "^2.2.0"
+  },
   "scripts": {
     "nodemon": "nodemon --watch ./src ./src/server.js",
     "start": "node ./src/server.js",
