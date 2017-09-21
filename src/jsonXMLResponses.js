@@ -68,7 +68,7 @@ const notImplemented = (request, response, type) => {
 
     return respondXML(request, response, 501, responseBack);
   }
-  responseBack.id = 'forbidden';
+  responseBack.id = 'notImplemented';
   responseBack.message = 'A get request for this page has not been implemented yet. Check again later for updated content.';
 
   return respondJSON(request, response, 501, responseBack);
