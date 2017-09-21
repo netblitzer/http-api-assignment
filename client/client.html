@@ -7,6 +7,98 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
   <script type="text/babel">
 
+    const parse = (xhr, content) => {
+      console.dir(xhr.getResponseHeader('Content-Type'));
+      console.dir(xhr.response);
+      
+      if (xhr.getResponseHeader('Content-Type') === 'text/xml') {
+        const parser = new DOMParser();
+        const res = parser.parseFromString(xhr.response, 'text/xml');
+        
+        const id = res.getElementsByTagName('id')[0];
+        const mes = res.getElementsByTagName('message')[0];
+        
+        if (id) {
+          content.innerHTML += `<p> ${id.innerHTML} </p>`;
+        }
+        content.innerHTML += `<p> ${mes.innerHTML} </p>`;
+      } else {
+        const res = JSON.parse(xhr.response);
+        
+        if (res.id) {
+          content.innerHTML += `<p> ${res.id} </p>`;
+        }
+        content.innerHTML += `<p> ${res.message} </p>`;
+      }
+    };
+
+    const handleResponse = (xhr, parseResponse) => {
+      const content = document.querySelector('#content');
+      
+      switch(xhr.status) {
+        case 200:
+          content.innerHTML = `<b>Success</b>`;
+          break;
+        case 400:
+          content.innerHTML = `<b>Bad Request</b>`;
+          break;
+        case 401:
+          content.innerHTML = `<b>Unauthorized</b>`;
+          break;
+        case 403:
+          content.innerHTML = `<b>Forbidden</b>`;
+          break;
+        case 404:
+          content.innerHTML = `<b>Not Found</b>`;
+          break;
+        case 500:
+          content.innerHTML = `<b>Internal Error</b>`;
+          break;
+        case 501:
+          content.innerHTML = `<b>Not Implemented</b>`;
+          break;
+        default:
+          content.innerHTML = `<b>Error Code not implemented by client`;
+          break;
+      }
+      
+      if (parseResponse) {
+        parse(xhr, content);
+      }
+    };
+
+    const sendGet = (e, top) => {
+      const action =  top.querySelector('#page').value;
+      const type =  top.querySelector('#type').value;
+      
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', action);
+      xhr.setRequestHeader('Accept', type);
+      
+      //if (top.querySelector('#type').value === 'text/xml') {
+      //  xhr.reponseType = 'document';
+      //} else {
+      //  xhr.responseType = 'json';
+      //}
+      
+      xhr.onload = () => handleResponse(xhr, true);
+      
+      xhr.send();
+      
+      e.preventDefault();
+      return false;
+    };
+
+    const init = () => {
+      const top = document.querySelector('#top');
+      
+      const getResponse = (e) => sendGet(e, top);
+      
+      document.querySelector('#send').addEventListener('click', getResponse);
+    };
+
+    window.onload = init;
+
   </script>
 </head>
 <body>

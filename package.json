@@ -1,0 +1,24 @@
+{
+  "name": "http-api-assignment",
+  "version": "1.0.0",
+  "description": "API Study Guide",
+  "main": "src/server.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "nodemon": "nodemon --watch ./src ./src/server.js",
+    "start": "node ./src/server.js",
+    "pretest": "eslint ./src --fix",
+    "test": "echo \"Tests complete\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/netblitzer/http-api-assignment.git"
+  },
+  "author": "Luke Miller",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/netblitzer/http-api-assignment/issues"
+  },
+  "homepage": "https://github.com/netblitzer/http-api-assignment#readme"
+}
